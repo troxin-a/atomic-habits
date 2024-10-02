@@ -188,3 +188,4 @@ templates_only
 .pylintrc
 db.sqlite3
 media
+habits
