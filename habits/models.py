@@ -14,8 +14,8 @@ class Habit(models.Model):
         verbose_name="Место выполнения",
         max_length=150,
     )
-    time = models.DateTimeField(
-        verbose_name="Дата и время выполнения",
+    time = models.TimeField(
+        verbose_name="Время выполнения",
     )
     doing = models.CharField(
         verbose_name="Действие",

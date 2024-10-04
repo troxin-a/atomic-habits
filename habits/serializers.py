@@ -52,6 +52,7 @@ class HabitUpdateSerializer(serializers.ModelSerializer):
         return validators
 
     def run_validation(self, data):
+        # print(data)
         """
         Если метод - PATCH, достает экземпляр и подмешивает нехватающие данные
         в data для полной валидации на уровне объекта
@@ -71,8 +72,10 @@ class HabitUpdateSerializer(serializers.ModelSerializer):
                         self.instance,
                         field,
                     ),
-                )
+                )            
             new_data.update(data)
             data = new_data
+            
 
         return super().run_validation(data)
+    
