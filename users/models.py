@@ -5,6 +5,7 @@ from django.db import models
 class User(AbstractUser):
     username = None
     email = models.EmailField(verbose_name="Почта", unique=True)
+    tg_chat_id = models.CharField(verbose_name="Телеграм chat_id", unique=True, max_length=20)
 
     def __str__(self):
         return self.email

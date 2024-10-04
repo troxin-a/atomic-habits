@@ -14,12 +14,12 @@ non_field = REST_FRAMEWORK["NON_FIELD_ERRORS_KEY"]
 class HabitTestCase(APITestCase):
 
     def setUp(self):
-        self.user1 = User.objects.create(email="user1@test.ru")
-        self.user2 = User.objects.create(email="user2@test.ru")
+        self.user1 = User.objects.create(email="user1@test.ru", tg_chat_id="0")
+        self.user2 = User.objects.create(email="user2@test.ru", tg_chat_id="1")
         self.nice_habit = Habit.objects.create(
             user=self.user1,
             place="Приятная привычка",
-            time="12:00:00",
+            time="2024-10-03T12:00:00+07:00",
             doing="Приятная привычка",
             duration=1,
             nice=True,
@@ -28,7 +28,7 @@ class HabitTestCase(APITestCase):
         self.health_habit1 = Habit.objects.create(
             user=self.user1,
             place="Полезная привычка1",
-            time="12:00:00",
+            time="2024-10-03T12:00:00+07:00",
             doing="Полезная привычка1",
             duration=1,
             related_habit=self.nice_habit,
@@ -37,7 +37,7 @@ class HabitTestCase(APITestCase):
         self.health_habit2 = Habit.objects.create(
             user=self.user1,
             place="Полезная привычка2",
-            time="12:00:00",
+            time="2024-10-03T12:00:00+07:00",
             doing="Полезная привычка2",
             duration=1,
             reward="Награда",
@@ -45,7 +45,7 @@ class HabitTestCase(APITestCase):
         self.health_habit3 = Habit.objects.create(
             user=self.user2,
             place="Полезная привычка3",
-            time="12:00:00",
+            time="2024-10-03T12:00:00+07:00",
             doing="Полезная привычка3",
             duration=1,
             reward="Награда",
@@ -66,7 +66,7 @@ class HabitTestCase(APITestCase):
         url = reverse("habits:list-create")
         data = {
             "place": "тест",
-            "time": "12:00:00",
+            "time": "2024-10-03T12:00:00+07:00",
             "doing": "тест",
         }
 
@@ -80,7 +80,7 @@ class HabitTestCase(APITestCase):
             "place": "тест",
             "related_habit": 1,
             "reward": "",
-            "time": "12:00:00",
+            "time": "2024-10-03T12:00:00+07:00",
             "user": 1,
         }
 

@@ -1,6 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from drf_yasg.utils import swagger_auto_schema
 
 from users.models import User
 from users.serializers import (
@@ -13,15 +14,24 @@ from users.serializers import (
 class UserCreateAPIView(generics.CreateAPIView):
     """
     Регистрация.
-    Только неавторизованный пользователь может зарегистрироваться
+
+    Только неавторизованный пользователь может зарегистрироваться.
     """
 
     serializer_class = RegisterSerializer
     permission_classes = (~IsAuthenticated,)
 
+    @swagger_auto_schema(responses={200: RegisterSerializer()})
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
 
 class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
-    """Профиля пользователя."""
+    """
+    Профиля пользователя.
+
+    Только авторизованный пользователь видит и редактирует свой профиль.
+    """
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -32,7 +42,11 @@ class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
 
 
 class UserPasswordUpdateAPIView(generics.UpdateAPIView):
-    """Смена пароля."""
+    """
+    Смена пароля.
+
+    Необходимо ввести новый и старый пароль.
+    """
 
     queryset = User.objects.all()
     serializer_class = PasswordUpdateSerializer

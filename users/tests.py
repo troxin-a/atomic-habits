@@ -8,7 +8,7 @@ from users.models import User
 class UserTestCase(APITestCase):
 
     def setUp(self):
-        self.user1 = User.objects.create(email="user1@test.ru")
+        self.user1 = User.objects.create(email="user1@test.ru", tg_chat_id="0")
         self.user1.set_password("1")
 
     def test_user_create(self):
@@ -18,6 +18,7 @@ class UserTestCase(APITestCase):
         data = {
             "email": "test@test.ru",
             "password": "test",
+            "tg_chat_id": "1",
         }
         # Неавторизован
         response = self.client.post(url, data, format="json")
@@ -37,8 +38,7 @@ class UserTestCase(APITestCase):
         data = {
             "id": self.user1.pk,
             "email": self.user1.email,
-            "first_name": "",
-            "last_name": "",
+            "tg_chat_id": self.user1.tg_chat_id,
         }
         # Неавторизован
         response = self.client.get(url, format="json")

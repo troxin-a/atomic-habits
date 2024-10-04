@@ -72,10 +72,8 @@ class HabitUpdateSerializer(serializers.ModelSerializer):
                         self.instance,
                         field,
                     ),
-                )            
+                )
             new_data.update(data)
             data = new_data
-            
 
         return super().run_validation(data)
-    

@@ -5,13 +5,14 @@ from rest_framework.permissions import IsAuthenticated
 from habits.models import Habit
 from habits.permissions import IsOwner
 from habits.serializers import HabitSerializer, HabitUpdateSerializer
+from habits.services import create_task, get_task_name, update_task, delete_task
 
 
 class HabitListCreateAPIView(generics.ListCreateAPIView):
     """
-    Создание привычки.
+    Привычки.
 
-    Список привычек.
+    Создание привычек, список привычек.
     Пользователь видит только свои привычки.
     """
 
@@ -20,14 +21,17 @@ class HabitListCreateAPIView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+        create_task(serializer.instance)
 
     def get_queryset(self):
         return Habit.objects.filter(user=self.request.user)
 
 
-class HabitPublicListAPIView(generics.ListCreateAPIView):
+class HabitPublicListAPIView(generics.ListAPIView):
     """
-    Общий список опубликованных привычек
+    Опубликованные привычки.
+
+    Видо те привычки, которые имеют статус публикации.
     """
 
     serializer_class = HabitSerializer
@@ -50,14 +54,26 @@ class HabitRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return Habit.objects.filter(user=self.request.user)
 
+    def perform_update(self, serializer):
+        super().perform_update(serializer)
+
+        instance = self.get_object()
+        # if not instance.nice:
+        update_task(instance)
+        # else:
+        #     delete_task(get_task_name(instance))
+
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
+        task_name = get_task_name(instance)
         try:
             instance.delete()
-            return response.Response(status=status.HTTP_204_NO_CONTENT)
         except ProtectedError:
             habits_id = [habit.id for habit in instance.habits.all()]
             return response.Response(
                 data={"message": f"На удаляемую привычку ссылаются другие: {habits_id}"},
                 status=status.HTTP_418_IM_A_TEAPOT,  # Ахахах )))
             )
+        else:
+            delete_task(task_name)
+            return response.Response(status=status.HTTP_204_NO_CONTENT)
