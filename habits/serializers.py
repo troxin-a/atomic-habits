@@ -27,32 +27,7 @@ class HabitSerializer(serializers.ModelSerializer):
         )
         return validators
 
-
-class HabitUpdateSerializer(serializers.ModelSerializer):
-    """Сериализатор привычки."""
-
-    class Meta:
-        model = Habit
-        fields = "__all__"
-        read_only_fields = ("user",)
-        validators = (
-            SelectOneField(("related_habit", "reward", "nice")),
-            MaximumNumberLimit("duration", 120),
-            MaximumNumberLimit("periodicity", 7),
-        )
-
-    def get_validators(self):
-        validators = super().get_validators()
-        user = self.context.get("request").user
-        queryset = Habit.objects.filter(user=user)
-
-        validators.append(
-            RelateByConditions("related_habit", queryset, {"nice": True}),
-        )
-        return validators
-
     def run_validation(self, data):
-        # print(data)
         """
         Если метод - PATCH, достает экземпляр и подмешивает нехватающие данные
         в data для полной валидации на уровне объекта
