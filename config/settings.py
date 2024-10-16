@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import django
 from dotenv import load_dotenv
 from datetime import timedelta
 
@@ -58,6 +59,8 @@ TEMPLATES = [
         },
     },
 ]
+CORS_ALLOW_METHODS = ("GET",)
+
 
 WSGI_APPLICATION = "config.wsgi.application"
 
@@ -94,6 +97,17 @@ REST_FRAMEWORK = {
     "NON_FIELD_ERRORS_KEY": "Валидация",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 5,
+}
+
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+        },
+    },
+    "USE_SESSION_AUTH": False,
 }
 
 SIMPLE_JWT = {
