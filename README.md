@@ -1,12 +1,10 @@
-# Atomic-habits (Атомные привычки)
-
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![Django](https://img.shields.io/badge/Django-4.2-brightgreen)
 ![DRF](https://img.shields.io/badge/DRF-3.15-gray)
 ![Redis](https://img.shields.io/badge/Redis-5.1-red)
 ![Celery](https://img.shields.io/badge/Celery-5.4-green)
 
-# Edu-sphere: LMS-система
+# Atomic-habits (Атомные привычки)
 
 В 2018 году Джеймс Клир написал книгу «Атомные привычки», которая посвящена приобретению новых полезных привычек и искоренению старых плохих привычек. Заказчик прочитал книгу, впечатлился и обратился с запросом реализовать трекер полезных привычек.
 
