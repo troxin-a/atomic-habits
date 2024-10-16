@@ -21,65 +21,34 @@
 1. **Клонируйте репозиторий:**
 
 ```bash
-git clone https://github.com/troxin-a/edu-sphere.git
-cd edu-sphere
+git clone https://github.com/troxin-a/atomic-habits.git
+cd atomic-habits
 ```
 
-2. **Активируйте виртуальное окружение:**
-
-```bash
-poetry shell
-```
-
-3. **Установите зависимости:**
-
-```bash
-poetry install
-```
-
-4. **Создайте базу данных и примените миграции:**
-
-```bash
-python3 manage.py makemigrations
-python3 manage.py migrate
-```
-
-5. **Создайте файл .env в корневом каталоге проекта и добавьте необходимые переменные окружения:**
+2. **Создайте файл .env в корневом каталоге проекта и добавьте необходимые переменные окружения:**
 
 ```bash
 cp .env.sample .env
 nano .env
 ```
 
-6. **Создайте группу модераторов приложение auth для создания необходимых групп пользователей:**
+3. **Запустите docker-compose файл:**
 
 ```bash
-python3 manage.py fill
+docker compose up -d --build
 ```
 
-7. **Создайте суперпользователя:**
+4. **Примените миграции:**
 
 ```bash
-python3 manage.py csu
+docker compose exec app python manage.py migrate
 ```
 
-8. **Запустите локальный сервер:**
+5. **Создайте суперпользователя:**
 
 ```bash
-python3 manage.py runserver
-```
-
-9. **Запустите redis на локальной машине:**
-
-```bash
-redis-server
-```
-
-10. **Запустите celery + celery-beat:**
-
-```bash
-celery -A config worker --beat --scheduler django --loglevel=info
+docker compose exec app python manage.py csu
 ```
 
 ## 📚️ Использование
-Документация по использованию API будет доступна после запуска сервера по ссылке: http://127.0.0.1:8000/redoc/
+Документация по использованию API будет доступна после запуска сервера по ссылке: http://127.0.0.1:8000/redoc/ или http://127.0.0.1:8000/swagger/
